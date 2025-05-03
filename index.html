@@ -1,0 +1,277 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AtomGarden Feedback</title>
+    <style>
+        * {
+            box-sizing: border-box;
+            font-family: 'Arial', sans-serif;
+        }
+
+        body {
+            margin: 0;
+            padding: 20px;
+            background-color: #f0f4f0;
+        }
+
+        .container {
+            max-width: 600px;
+            margin: 0 auto;
+            background: white;
+            padding: 30px;
+            border-radius: 15px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+        }
+
+        h1 {
+            color: #2c5f2d;
+            font-size: 28px;
+            margin-bottom: 15px;
+        }
+
+        h2 {
+            color: #4a7856;
+            font-size: 20px;
+            margin: 25px 0 15px;
+        }
+
+        .question-group {
+            margin-bottom: 30px;
+            padding: 20px;
+            background: #f9fff9;
+            border-radius: 10px;
+            border: 1px solid #e0eae0;
+        }
+
+        label {
+            display: block;
+            margin: 12px 0;
+            color: #333;
+        }
+
+        input[type="text"],
+        input[type="email"],
+        textarea {
+            width: 100%;
+            padding: 12px;
+            margin: 8px 0;
+            border: 2px solid #d0e0d0;
+            border-radius: 6px;
+            font-size: 16px;
+        }
+
+        input[type="radio"],
+        input[type="checkbox"] {
+            margin-right: 10px;
+            transform: scale(1.2);
+        }
+
+        .submit-btn {
+            background: #4a7856;
+            color: white;
+            padding: 18px 40px;
+            border: none;
+            border-radius: 25px;
+            cursor: pointer;
+            font-size: 18px;
+            width: 100%;
+            transition: background 0.3s;
+        }
+
+        .submit-btn:hover {
+            background: #2c5f2d;
+        }
+
+        @media (max-width: 480px) {
+            .container {
+                padding: 15px;
+            }
+            
+            h1 {
+                font-size: 24px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🍃 AtomGarden Feedback</h1>
+        <p style="color: #666; line-height: 1.6;">Помогите нам стать лучше! Ваше мнение важно для нас.</p>
+
+        <form id="feedbackForm" onsubmit="handleSubmit(event)">
+            <!-- Секция 1: Общее впечатление -->
+            <div class="question-group">
+                <h2>1. Общее впечатление</h2>
+                
+                <div>
+                    <p><strong>• Как бы вы оценили ваш визит в AtomGarden?</strong></p>
+                    <label><input type="radio" name="visit_rating" value="Отлично" required> Отлично</label>
+                    <label><input type="radio" name="visit_rating" value="Хорошо"> Хорошо</label>
+                    <label><input type="radio" name="visit_rating" value="Удовлетворительно"> Удовлетворительно</label>
+                </div>
+
+                <div style="margin-top: 25px;">
+                    <p><strong>• Что вас привело к нам сегодня?</strong></p>
+                    <label><input type="checkbox" name="visit_reason[]" value="Рекомендация друзей"> Рекомендация друзей</label>
+                    <label><input type="checkbox" name="visit_reason[]" value="Социальные сети"> Социальные сети</label>
+                    <label><input type="checkbox" name="visit_reason[]" value="Сайт/реклама"> Сайт/реклама</label>
+                    <label><input type="checkbox" name="visit_reason[]" value="Проходя мимо"> Проходя мимо</label>
+                    <label>
+                        <input type="checkbox" name="visit_reason[]" value="Другое"> Другое:
+                        <input type="text" name="visit_reason_other" style="width: 200px; margin-left: 10px;">
+                    </label>
+                </div>
+            </div>
+
+            <!-- Секция 2: Оценка блюд и сервиса -->
+            <div class="question-group">
+                <h2>2. Оценка блюд и сервиса</h2>
+                
+                <div>
+                    <p><strong>• Понравилось ли вам меню?</strong></p>
+                    <label><input type="radio" name="menu_rating" value="Идеально" required> Да, всё было идеально!</label>
+                    <label><input type="radio" name="menu_rating" value="Можно улучшить"> Некоторые блюда можно улучшить</label>
+                    <label><input type="radio" name="menu_rating" value="Не впечатлило"> Не впечатлило</label>
+                </div>
+
+                <div style="margin-top: 25px;">
+                    <p><strong>• Какие блюда/напитки запомнились больше всего?</strong></p>
+                    <textarea name="memorable_dishes" rows="3" placeholder="Опишите ваши впечатления..."></textarea>
+                </div>
+
+                <div style="margin-top: 25px;">
+                    <p><strong>• Как вы оцениваете качество обслуживания?</strong></p>
+                    <label><input type="radio" name="service_rating" value="Вежливо и быстро" required> Вежливо и быстро</label>
+                    <label><input type="radio" name="service_rating" value="Хорошо, но были задержки"> Хорошо, но были задержки</label>
+                    <label><input type="radio" name="service_rating" value="Средне"> Средне</label>
+                    <label><input type="radio" name="service_rating" value="Неудовлетворительно"> Неудовлетворительно</label>
+                </div>
+            </div>
+
+            <!-- Секция 3: Атмосфера и интерьер -->
+            <div class="question-group">
+                <h2>3. Атмосфера и интерьер</h2>
+                
+                <div>
+                    <p><strong>• Как вы оцениваете атмосферу ресторана?</strong></p>
+                    <label><input type="radio" name="atmosphere_rating" value="Уютно и стильно" required> Уютно и стильно</label>
+                    <label><input type="radio" name="atmosphere_rating" value="Нейтрально"> Нейтрально</label>
+                    <label><input type="radio" name="atmosphere_rating" value="Не комфортно"> Не комфортно</label>
+                </div>
+
+                <div style="margin-top: 25px;">
+                    <p><strong>• Что бы вы добавили или изменили?</strong></p>
+                    <textarea name="atmosphere_suggestions" rows="3" placeholder="Ваши предложения..."></textarea>
+                </div>
+            </div>
+
+            <!-- Секция 4: Ваши пожелания -->
+            <div class="question-group">
+                <h2>4. Ваши пожелания</h2>
+                
+                <div>
+                    <p><strong>• Какие мероприятия/акции вы хотели бы увидеть в AtomGarden?</strong></p>
+                    <label><input type="checkbox" name="events[]" value="Кулинарные мастер-классы"> Кулинарные мастер-классы</label>
+                    <label><input type="checkbox" name="events[]" value="Тематические ужины"> Тематические ужины</label>
+                    <label><input type="checkbox" name="events[]" value="Скидки для постоянных гостей"> Скидки для постоянных гостей</label>
+                    <label><input type="checkbox" name="events[]" value="Живая музыка"> Живая музыка</label>
+                    <label>
+                        <input type="checkbox" name="events[]" value="Другое"> Другое:
+                        <input type="text" name="events_other" style="width: 200px; margin-left: 10px;">
+                    </label>
+                </div>
+
+                <div style="margin-top: 25px;">
+                    <p><strong>• Хотели бы вы получать рассылку о новинках и акциях?</strong></p>
+                    <label><input type="radio" name="newsletter" value="Да" required> Да! Укажите email: 
+                        <input type="email" name="email" style="width: 250px; margin-left: 10px;" placeholder="example@mail.com">
+                    </label><br>
+                    <label><input type="radio" name="newsletter" value="Нет"> Нет, спасибо</label>
+                </div>
+            </div>
+
+            <!-- Секция 5: О себе -->
+            <div class="question-group">
+                <h2>5. О себе</h2>
+                
+                <div>
+                    <p><strong>• Ваш возраст:</strong></p>
+                    <label><input type="radio" name="age" value="18-25" required> 18-25</label>
+                    <label><input type="radio" name="age" value="26-35"> 26-35</label>
+                    <label><input type="radio" name="age" value="36-45"> 36-45</label>
+                    <label><input type="radio" name="age" value="46+"> 46+</label>
+                </div>
+
+                <div style="margin-top: 25px;">
+                    <p><strong>• Ваш пол:</strong></p>
+                    <label><input type="radio" name="gender" value="Женский" required> Женский</label>
+                    <label><input type="radio" name="gender" value="Мужской"> Мужской</label>
+                    <label><input type="radio" name="gender" value="Не указывать"> Предпочитаю не указывать</label>
+                </div>
+
+                <div style="margin-top: 25px;">
+                    <p><strong>Дополнительные комментарии:</strong></p>
+                    <textarea name="comments" rows="4" placeholder="Ваши комментарии..."></textarea>
+                </div>
+
+                <div style="margin-top: 25px;">
+                    <p><strong>Контакты для обратной связи (необязательно):</strong></p>
+                    <input type="text" name="contacts" placeholder="Телефон или email">
+                </div>
+            </div>
+
+            <button type="submit" class="submit-btn">🌿 Отправить отзыв</button>
+        </form>
+        
+        <p style="text-align: center; margin-top: 30px; color: #666;">
+            AtomGarden — место, где встречаются вкус, уют и вдохновение.
+        </p>
+    </div>
+
+    <script>
+        // Функция обработки отправки формы
+        function handleSubmit(event) {
+            event.preventDefault();
+            
+            // Сбор данных формы
+            const formData = new FormData(event.target);
+            const data = {};
+            
+            // Обработка чекбоксов и группировка значений
+            for (const [key, value] of formData.entries()) {
+                if (key.endsWith('[]')) {
+                    const cleanKey = key.replace('[]', '');
+                    data[cleanKey] = data[cleanKey] 
+                        ? `${data[cleanKey]}, ${value}` 
+                        : value;
+                } else {
+                    data[key] = value;
+                }
+            }
+
+            // Отправка данных
+            fetch('https://script.google.com/macros/s/AKfycbwHXLs4yftQKOlu07R0-xfWy-4PnjzfP5LYCrraXS16ywF4uzKMEU0xVXGun-b7lP9wwg/exec', {
+                method: 'POST',
+                body: JSON.stringify(data),
+                headers: {
+                    'Content-Type': 'application/json'
+                }
+            })
+            .then(response => {
+                if (response.ok) {
+                    alert('Спасибо за ваш отзыв! 🌱');
+                    event.target.reset();
+                } else {
+                    throw new Error('Ошибка отправки');
+                }
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                alert('Произошла ошибка при отправке. Пожалуйста, попробуйте позже.');
+            });
+        }
+    </script>
+</body>
+</html>
