@@ -5,272 +5,371 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>AtomGarden Feedback</title>
     <style>
-        * {
-            box-sizing: border-box;
-            font-family: 'Arial', sans-serif;
-        }
-
+        /* Общие стили */
         body {
+            font-family: Arial, sans-serif;
+            line-height: 1.6;
             margin: 0;
-            padding: 20px;
-            background-color: #f0f4f0;
+            padding: 15px;
+            background-color: #f8f9fa;
         }
-
+        
         .container {
             max-width: 600px;
             margin: 0 auto;
             background: white;
-            padding: 30px;
-            border-radius: 15px;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
         }
 
         h1 {
             color: #2c5f2d;
-            font-size: 28px;
-            margin-bottom: 15px;
+            font-size: 1.8em;
+            margin-bottom: 20px;
         }
 
         h2 {
-            color: #4a7856;
-            font-size: 20px;
+            color: #3a7d3d;
+            font-size: 1.3em;
             margin: 25px 0 15px;
         }
 
         .question-group {
-            margin-bottom: 30px;
-            padding: 20px;
-            background: #f9fff9;
-            border-radius: 10px;
-            border: 1px solid #e0eae0;
-        }
-
-        label {
-            display: block;
-            margin: 12px 0;
-            color: #333;
+            margin-bottom: 25px;
+            padding: 15px;
+            background-color: #f8f9fa;
+            border-radius: 8px;
         }
 
         input[type="text"],
-        input[type="email"],
-        textarea {
+        textarea,
+        select {
             width: 100%;
-            padding: 12px;
+            padding: 10px;
             margin: 8px 0;
-            border: 2px solid #d0e0d0;
-            border-radius: 6px;
-            font-size: 16px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            box-sizing: border-box;
         }
 
-        input[type="radio"],
-        input[type="checkbox"] {
-            margin-right: 10px;
-            transform: scale(1.2);
-        }
-
-        .submit-btn {
-            background: #4a7856;
+        button {
+            background: #2c5f2d;
             color: white;
-            padding: 18px 40px;
+            padding: 12px 30px;
             border: none;
             border-radius: 25px;
             cursor: pointer;
-            font-size: 18px;
-            width: 100%;
+            font-size: 1.1em;
             transition: background 0.3s;
         }
 
-        .submit-btn:hover {
-            background: #2c5f2d;
+        button:hover {
+            background: #234d24;
+        }
+
+        .language-switcher {
+            text-align: right;
+            margin-bottom: 20px;
+        }
+
+        .checkbox-group, .radio-group {
+            margin: 10px 0;
+        }
+
+        .other-input {
+            margin-left: 25px;
+            display: none;
         }
 
         @media (max-width: 480px) {
             .container {
                 padding: 15px;
             }
-            
             h1 {
-                font-size: 24px;
+                font-size: 1.5em;
             }
         }
     </style>
 </head>
 <body>
     <div class="container">
-        <h1>🍃 AtomGarden Feedback</h1>
-        <p style="color: #666; line-height: 1.6;">Помогите нам стать лучше! Ваше мнение важно для нас.</p>
+        <div class="language-switcher">
+            <button onclick="changeLanguage('ru')">Русский</button>
+            <button onclick="changeLanguage('en')">English</button>
+        </div>
 
-        <form id="feedbackForm" onsubmit="handleSubmit(event)">
-            <!-- Секция 1: Общее впечатление -->
-            <div class="question-group">
-                <h2>1. Общее впечатление</h2>
-                
-                <div>
-                    <p><strong>• Как бы вы оценили ваш визит в AtomGarden?</strong></p>
-                    <label><input type="radio" name="visit_rating" value="Отлично" required> Отлично</label>
-                    <label><input type="radio" name="visit_rating" value="Хорошо"> Хорошо</label>
-                    <label><input type="radio" name="visit_rating" value="Удовлетворительно"> Удовлетворительно</label>
+        <form id="feedbackForm" onsubmit="return submitForm(event)">
+            <!-- Русская версия -->
+            <div data-lang="ru">
+                <h1>🍃 Анкета для гостей AtomGarden</h1>
+                <p>Помогите нам стать лучше! Ваше мнение важно для нас.</p>
+
+                <!-- Секция 1: Общее впечатление -->
+                <div class="question-group">
+                    <h2>1. Общее впечатление</h2>
+                    <div class="radio-group">
+                        <p>• Как бы вы оценили ваш визит?</p>
+                        <label><input type="radio" name="rating" value="Отлично" required> Отлично</label><br>
+                        <label><input type="radio" name="rating" value="Хорошо"> Хорошо</label><br>
+                        <label><input type="radio" name="rating" value="Удовлетворительно"> Удовлетворительно</label>
+                    </div>
+
+                    <div class="checkbox-group">
+                        <p>• Что вас привело к нам?</p>
+                        <label><input type="checkbox" name="source[]" value="Рекомендация"> Рекомендация друзей</label><br>
+                        <label><input type="checkbox" name="source[]" value="Соцсети"> Социальные сети</label><br>
+                        <label><input type="checkbox" name="source[]" value="Реклама"> Сайт/реклама</label><br>
+                        <label><input type="checkbox" name="source[]" value="Случайно"> Проходя мимо</label><br>
+                        <label><input type="checkbox" class="other-trigger"> Другое:
+                            <input type="text" name="source_other" class="other-input">
+                        </label>
+                    </div>
                 </div>
 
-                <div style="margin-top: 25px;">
-                    <p><strong>• Что вас привело к нам сегодня?</strong></p>
-                    <label><input type="checkbox" name="visit_reason[]" value="Рекомендация друзей"> Рекомендация друзей</label>
-                    <label><input type="checkbox" name="visit_reason[]" value="Социальные сети"> Социальные сети</label>
-                    <label><input type="checkbox" name="visit_reason[]" value="Сайт/реклама"> Сайт/реклама</label>
-                    <label><input type="checkbox" name="visit_reason[]" value="Проходя мимо"> Проходя мимо</label>
-                    <label>
-                        <input type="checkbox" name="visit_reason[]" value="Другое"> Другое:
-                        <input type="text" name="visit_reason_other" style="width: 200px; margin-left: 10px;">
-                    </label>
+                <!-- Секция 2: Блюда и сервис -->
+                <div class="question-group">
+                    <h2>2. Оценка блюд и сервиса</h2>
+                    <div class="radio-group">
+                        <p>• Понравилось ли меню?</p>
+                        <label><input type="radio" name="menu" value="Идеально"> Да, всё идеально!</label><br>
+                        <label><input type="radio" name="menu" value="Улучшить"> Некоторые блюда можно улучшить</label><br>
+                        <label><input type="radio" name="menu" value="Не понравилось"> Не впечатлило</label>
+                    </div>
+
+                    <p>• Какие блюда/напитки запомнились больше всего?</p>
+                    <textarea name="memorable_dishes" rows="3"></textarea>
+
+                    <div class="radio-group">
+                        <p>• Качество обслуживания:</p>
+                        <label><input type="radio" name="service" value="Вежливо и быстро"> Вежливо и быстро</label><br>
+                        <label><input type="radio" name="service" value="Хорошо с задержками"> Хорошо, но были задержки</label><br>
+                        <label><input type="radio" name="service" value="Средне"> Средне</label><br>
+                        <label><input type="radio" name="service" value="Неудовлетворительно"> Неудовлетворительно</label>
+                    </div>
                 </div>
+
+                <!-- Секция 3: Атмосфера -->
+                <div class="question-group">
+                    <h2>3. Атмосфера и интерьер</h2>
+                    <div class="radio-group">
+                        <p>• Оценка атмосферы:</p>
+                        <label><input type="radio" name="atmosphere" value="Уютно"> Уютно и стильно</label><br>
+                        <label><input type="radio" name="atmosphere" value="Нейтрально"> Нейтрально</label><br>
+                        <label><input type="radio" name="atmosphere" value="Не комфортно"> Не комфортно</label>
+                    </div>
+
+                    <p>• Что бы вы добавили или изменили?</p>
+                    <textarea name="atmosphere_comment" rows="3"></textarea>
+                </div>
+
+                <!-- Секция 4: Пожелания -->
+                <div class="question-group">
+                    <h2>4. Ваши пожелания</h2>
+                    <div class="checkbox-group">
+                        <p>• Желаемые мероприятия:</p>
+                        <label><input type="checkbox" name="events[]" value="Мастер-классы"> Кулинарные мастер-классы</label><br>
+                        <label><input type="checkbox" name="events[]" value="Ужины"> Тематические ужины</label><br>
+                        <label><input type="checkbox" name="events[]" value="Скидки"> Скидки для постоянных гостей</label><br>
+                        <label><input type="checkbox" name="events[]" value="Музыка"> Живая музыка</label><br>
+                        <label><input type="checkbox" class="other-trigger"> Другое:
+                            <input type="text" name="events_other" class="other-input">
+                        </label>
+                    </div>
+
+                    <div class="radio-group">
+                        <p>• Рассылка о новинках:</p>
+                        <label><input type="radio" name="newsletter" value="Да"> Да! Укажите email:
+                            <input type="email" name="email" style="margin-left: 10px;">
+                        </label><br>
+                        <label><input type="radio" name="newsletter" value="Нет"> Нет, спасибо</label>
+                    </div>
+                </div>
+
+                <!-- Секция 5: О себе -->
+                <div class="question-group">
+                    <h2>5. О себе</h2>
+                    <div class="radio-group">
+                        <p>• Возраст:</p>
+                        <label><input type="radio" name="age" value="18-25"> 18-25</label><br>
+                        <label><input type="radio" name="age" value="26-35"> 26-35</label><br>
+                        <label><input type="radio" name="age" value="36-45"> 36-45</label><br>
+                        <label><input type="radio" name="age" value="46+"> 46+</label>
+                    </div>
+
+                    <div class="radio-group">
+                        <p>• Пол:</p>
+                        <label><input type="radio" name="gender" value="Женский"> Женский</label><br>
+                        <label><input type="radio" name="gender" value="Мужской"> Мужской</label><br>
+                        <label><input type="radio" name="gender" value="Не указано"> Предпочитаю не указывать</label>
+                    </div>
+                </div>
+
+                <div class="question-group">
+                    <p>🌿 AtomGarden — место, где встречаются вкус, уют и вдохновение.</p>
+                    <p>Ваши комментарии: <textarea name="comments" rows="2"></textarea></p>
+                    <p>Контакты для ответа: <input type="text" name="contacts"></p>
+                </div>
+
+                <button type="submit">Отправить отзыв</button>
             </div>
 
-            <!-- Секция 2: Оценка блюд и сервиса -->
-            <div class="question-group">
-                <h2>2. Оценка блюд и сервиса</h2>
-                
-                <div>
-                    <p><strong>• Понравилось ли вам меню?</strong></p>
-                    <label><input type="radio" name="menu_rating" value="Идеально" required> Да, всё было идеально!</label>
-                    <label><input type="radio" name="menu_rating" value="Можно улучшить"> Некоторые блюда можно улучшить</label>
-                    <label><input type="radio" name="menu_rating" value="Не впечатлило"> Не впечатлило</label>
+            <!-- Английская версия -->
+            <div data-lang="en" style="display:none;">
+                <h1>🍃 AtomGarden Feedback Form</h1>
+                <p>Help us improve! Your opinion matters.</p>
+
+                <!-- Section 1: General Impression -->
+                <div class="question-group">
+                    <h2>1. General Impression</h2>
+                    <div class="radio-group">
+                        <p>• How would you rate your visit?</p>
+                        <label><input type="radio" name="rating" value="Excellent" required> Excellent</label><br>
+                        <label><input type="radio" name="rating" value="Good"> Good</label><br>
+                        <label><input type="radio" name="rating" value="Satisfactory"> Satisfactory</label>
+                    </div>
+
+                    <div class="checkbox-group">
+                        <p>• What brought you here today?</p>
+                        <label><input type="checkbox" name="source[]" value="Recommendation"> Friend's recommendation</label><br>
+                        <label><input type="checkbox" name="source[]" value="Social Media"> Social Media</label><br>
+                        <label><input type="checkbox" name="source[]" value="Advertising"> Website/Advertising</label><br>
+                        <label><input type="checkbox" name="source[]" value="Passing By"> Passing by</label><br>
+                        <label><input type="checkbox" class="other-trigger"> Other:
+                            <input type="text" name="source_other" class="other-input">
+                        </label>
+                    </div>
                 </div>
 
-                <div style="margin-top: 25px;">
-                    <p><strong>• Какие блюда/напитки запомнились больше всего?</strong></p>
-                    <textarea name="memorable_dishes" rows="3" placeholder="Опишите ваши впечатления..."></textarea>
+                <!-- Section 2: Food & Service -->
+                <div class="question-group">
+                    <h2>2. Food & Service Evaluation</h2>
+                    <div class="radio-group">
+                        <p>• Did you like the menu?</p>
+                        <label><input type="radio" name="menu" value="Perfect"> Yes, everything was perfect!</label><br>
+                        <label><input type="radio" name="menu" value="Improve"> Some dishes could be improved</label><br>
+                        <label><input type="radio" name="menu" value="Not impressed"> Not impressed</label>
+                    </div>
+
+                    <p>• Most memorable dishes/drinks:</p>
+                    <textarea name="memorable_dishes" rows="3"></textarea>
+
+                    <div class="radio-group">
+                        <p>• Service quality:</p>
+                        <label><input type="radio" name="service" value="Excellent"> Polite and fast</label><br>
+                        <label><input type="radio" name="service" value="Good with delays"> Good but with delays</label><br>
+                        <label><input type="radio" name="service" value="Average"> Average</label><br>
+                        <label><input type="radio" name="service" value="Poor"> Unsatisfactory</label>
+                    </div>
                 </div>
 
-                <div style="margin-top: 25px;">
-                    <p><strong>• Как вы оцениваете качество обслуживания?</strong></p>
-                    <label><input type="radio" name="service_rating" value="Вежливо и быстро" required> Вежливо и быстро</label>
-                    <label><input type="radio" name="service_rating" value="Хорошо, но были задержки"> Хорошо, но были задержки</label>
-                    <label><input type="radio" name="service_rating" value="Средне"> Средне</label>
-                    <label><input type="radio" name="service_rating" value="Неудовлетворительно"> Неудовлетворительно</label>
+                <!-- Section 3: Atmosphere -->
+                <div class="question-group">
+                    <h2>3. Atmosphere & Interior</h2>
+                    <div class="radio-group">
+                        <p>• Atmosphere rating:</p>
+                        <label><input type="radio" name="atmosphere" value="Cozy"> Cozy and stylish</label><br>
+                        <label><input type="radio" name="atmosphere" value="Neutral"> Neutral</label><br>
+                        <label><input type="radio" name="atmosphere" value="Uncomfortable"> Uncomfortable</label>
+                    </div>
+
+                    <p>• What would you add/change?</p>
+                    <textarea name="atmosphere_comment" rows="3"></textarea>
                 </div>
+
+                <!-- Section 4: Suggestions -->
+                <div class="question-group">
+                    <h2>4. Your Suggestions</h2>
+                    <div class="checkbox-group">
+                        <p>• Desired events:</p>
+                        <label><input type="checkbox" name="events[]" value="Classes"> Cooking classes</label><br>
+                        <label><input type="checkbox" name="events[]" value="Dinners"> Themed dinners</label><br>
+                        <label><input type="checkbox" name="events[]" value="Discounts"> Regulars discounts</label><br>
+                        <label><input type="checkbox" name="events[]" value="Music"> Live music</label><br>
+                        <label><input type="checkbox" class="other-trigger"> Other:
+                            <input type="text" name="events_other" class="other-input">
+                        </label>
+                    </div>
+
+                    <div class="radio-group">
+                        <p>• Newsletter subscription:</p>
+                        <label><input type="radio" name="newsletter" value="Yes"> Yes! Email:
+                            <input type="email" name="email" style="margin-left: 10px;">
+                        </label><br>
+                        <label><input type="radio" name="newsletter" value="No"> No, thanks</label>
+                    </div>
+                </div>
+
+                <!-- Section 5: About You -->
+                <div class="question-group">
+                    <h2>5. About You</h2>
+                    <div class="radio-group">
+                        <p>• Age:</p>
+                        <label><input type="radio" name="age" value="18-25"> 18-25</label><br>
+                        <label><input type="radio" name="age" value="26-35"> 26-35</label><br>
+                        <label><input type="radio" name="age" value="36-45"> 36-45</label><br>
+                        <label><input type="radio" name="age" value="46+"> 46+</label>
+                    </div>
+
+                    <div class="radio-group">
+                        <p>• Gender:</p>
+                        <label><input type="radio" name="gender" value="Female"> Female</label><br>
+                        <label><input type="radio" name="gender" value="Male"> Male</label><br>
+                        <label><input type="radio" name="gender" value="Prefer not to say"> Prefer not to say</label>
+                    </div>
+                </div>
+
+                <div class="question-group">
+                    <p>🌿 AtomGarden - Where taste, comfort and inspiration meet.</p>
+                    <p>Additional comments: <textarea name="comments" rows="2"></textarea></p>
+                    <p>Contact details: <input type="text" name="contacts"></p>
+                </div>
+
+                <button type="submit">Submit Feedback</button>
             </div>
-
-            <!-- Секция 3: Атмосфера и интерьер -->
-            <div class="question-group">
-                <h2>3. Атмосфера и интерьер</h2>
-                
-                <div>
-                    <p><strong>• Как вы оцениваете атмосферу ресторана?</strong></p>
-                    <label><input type="radio" name="atmosphere_rating" value="Уютно и стильно" required> Уютно и стильно</label>
-                    <label><input type="radio" name="atmosphere_rating" value="Нейтрально"> Нейтрально</label>
-                    <label><input type="radio" name="atmosphere_rating" value="Не комфортно"> Не комфортно</label>
-                </div>
-
-                <div style="margin-top: 25px;">
-                    <p><strong>• Что бы вы добавили или изменили?</strong></p>
-                    <textarea name="atmosphere_suggestions" rows="3" placeholder="Ваши предложения..."></textarea>
-                </div>
-            </div>
-
-            <!-- Секция 4: Ваши пожелания -->
-            <div class="question-group">
-                <h2>4. Ваши пожелания</h2>
-                
-                <div>
-                    <p><strong>• Какие мероприятия/акции вы хотели бы увидеть в AtomGarden?</strong></p>
-                    <label><input type="checkbox" name="events[]" value="Кулинарные мастер-классы"> Кулинарные мастер-классы</label>
-                    <label><input type="checkbox" name="events[]" value="Тематические ужины"> Тематические ужины</label>
-                    <label><input type="checkbox" name="events[]" value="Скидки для постоянных гостей"> Скидки для постоянных гостей</label>
-                    <label><input type="checkbox" name="events[]" value="Живая музыка"> Живая музыка</label>
-                    <label>
-                        <input type="checkbox" name="events[]" value="Другое"> Другое:
-                        <input type="text" name="events_other" style="width: 200px; margin-left: 10px;">
-                    </label>
-                </div>
-
-                <div style="margin-top: 25px;">
-                    <p><strong>• Хотели бы вы получать рассылку о новинках и акциях?</strong></p>
-                    <label><input type="radio" name="newsletter" value="Да" required> Да! Укажите email: 
-                        <input type="email" name="email" style="width: 250px; margin-left: 10px;" placeholder="example@mail.com">
-                    </label><br>
-                    <label><input type="radio" name="newsletter" value="Нет"> Нет, спасибо</label>
-                </div>
-            </div>
-
-            <!-- Секция 5: О себе -->
-            <div class="question-group">
-                <h2>5. О себе</h2>
-                
-                <div>
-                    <p><strong>• Ваш возраст:</strong></p>
-                    <label><input type="radio" name="age" value="18-25" required> 18-25</label>
-                    <label><input type="radio" name="age" value="26-35"> 26-35</label>
-                    <label><input type="radio" name="age" value="36-45"> 36-45</label>
-                    <label><input type="radio" name="age" value="46+"> 46+</label>
-                </div>
-
-                <div style="margin-top: 25px;">
-                    <p><strong>• Ваш пол:</strong></p>
-                    <label><input type="radio" name="gender" value="Женский" required> Женский</label>
-                    <label><input type="radio" name="gender" value="Мужской"> Мужской</label>
-                    <label><input type="radio" name="gender" value="Не указывать"> Предпочитаю не указывать</label>
-                </div>
-
-                <div style="margin-top: 25px;">
-                    <p><strong>Дополнительные комментарии:</strong></p>
-                    <textarea name="comments" rows="4" placeholder="Ваши комментарии..."></textarea>
-                </div>
-
-                <div style="margin-top: 25px;">
-                    <p><strong>Контакты для обратной связи (необязательно):</strong></p>
-                    <input type="text" name="contacts" placeholder="Телефон или email">
-                </div>
-            </div>
-
-            <button type="submit" class="submit-btn">🌿 Отправить отзыв</button>
         </form>
-        
-        <p style="text-align: center; margin-top: 30px; color: #666;">
-            AtomGarden — место, где встречаются вкус, уют и вдохновение.
-        </p>
     </div>
 
     <script>
-        // Функция обработки отправки формы
-        function handleSubmit(event) {
-            event.preventDefault();
-            
-            // Сбор данных формы
-            const formData = new FormData(event.target);
-            const data = {};
-            
-            // Обработка чекбоксов и группировка значений
-            for (const [key, value] of formData.entries()) {
-                if (key.endsWith('[]')) {
-                    const cleanKey = key.replace('[]', '');
-                    data[cleanKey] = data[cleanKey] 
-                        ? `${data[cleanKey]}, ${value}` 
-                        : value;
-                } else {
-                    data[key] = value;
-                }
-            }
-
-            // Отправка данных
-            fetch('https://script.google.com/macros/s/AKfycbwHXLs4yftQKOlu07R0-xfWy-4PnjzfP5LYCrraXS16ywF4uzKMEU0xVXGun-b7lP9wwg/exec', {
-                method: 'POST',
-                body: JSON.stringify(data),
-                headers: {
-                    'Content-Type': 'application/json'
-                }
-            })
-            .then(response => {
-                if (response.ok) {
-                    alert('Спасибо за ваш отзыв! 🌱');
-                    event.target.reset();
-                } else {
-                    throw new Error('Ошибка отправки');
-                }
-            })
-            .catch(error => {
-                console.error('Error:', error);
-                alert('Произошла ошибка при отправке. Пожалуйста, попробуйте позже.');
+        // Переключение языков
+        function changeLanguage(lang) {
+            document.querySelectorAll('[data-lang]').forEach(el => {
+                el.style.display = el.dataset.lang === lang ? 'block' : 'none';
             });
+        }
+
+        // Обработка полей "Другое"
+        document.querySelectorAll('.other-trigger').forEach(checkbox => {
+            checkbox.addEventListener('change', function() {
+                const otherField = this.parentNode.querySelector('.other-input');
+                otherField.style.display = this.checked ? 'inline-block' : 'none';
+                if (!this.checked) otherField.value = '';
+            });
+        });
+
+        // Отправка данных
+        async function submitForm(e) {
+            e.preventDefault();
+            
+            const formData = {
+                timestamp: new Date().toISOString(),
+                ...Object.fromEntries(new FormData(e.target))
+            };
+
+            try {
+                const response = await fetch('https://script.google.com/macros/s/AKfycbzPmw5WvGRkybKdkpSPbPvfXLRtv4myI9VxdEhEuKMXFF3GbvSeQxhaUhSV8hPGeXXdrQ/exec', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(formData)
+                });
+
+                if (response.ok) {
+                    alert('Thank you for your feedback!');
+                    e.target.reset();
+                }
+            } catch (error) {
+                alert('Error submitting form. Please try again.');
+            }
         }
     </script>
 </body>
