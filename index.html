@@ -348,29 +348,31 @@
         });
 
         // Отправка данных
-        async function submitForm(e) {
-            e.preventDefault();
-            
-            const formData = {
-                timestamp: new Date().toISOString(),
-                ...Object.fromEntries(new FormData(e.target))
-            };
+		async function submitForm(e) {
+		  e.preventDefault();
+  
+		  const formData = {
+		    timestamp: new Date().toISOString(),
+		    ...Object.fromEntries(new FormData(e.target))
+		  };
 
-            try {
-                const response = await fetch('https://script.google.com/macros/s/AKfycbxFpOu-o5MajvL117yi5GTrm0ZIRiRTrkaZ0nNJ-V2a4O0LlqNuh_WWH3yfRp8upULEmQ/exec', {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify(formData)
-                });
+		  try {
+		    const response = await fetch('https://script.google.com/macros/s/AKfycbxFpOu-o5MajvL117yi5GTrm0ZIRiRTrkaZ0nNJ-V2a4O0LlqNuh_WWH3yfRp8upULEmQ/exec', {
+		      method: 'POST',
+		      mode: 'no-cors', // ← Добавьте эту строку
+		      headers: { 'Content-Type': 'application/json' },
+		      body: JSON.stringify(formData)
+		    });
 
-                if (response.ok) {
-                    alert('Thank you for your feedback!');
-                    e.target.reset();
-                }
-            } catch (error) {
-                alert('Error submitting form. Please try again.');
-            }
-        }
+		    if (response.ok || response.type === 'opaque') {
+		      alert('Данные успешно отправлены!');
+		      e.target.reset();
+		    }
+		  } catch (error) {
+		    console.error('Ошибка:', error);
+		    alert('Ошибка отправки. Проверьте консоль для деталей.');
+		  }
+		}
     </script>
 </body>
 </html>
